@@ -61,20 +61,24 @@ const createDataRekam = async (req, res, next) => {
 const deleteDataRekam = async (req, res, next) => {
   const { id } = req.params;
   try {
-    await pool.query("DELETE FROM rekam WHERE id = ?", [id]);
+    const response = await pool.query("DELETE FROM rekam WHERE id = ?", [id]);
 
-    res.status(200).json({ success: true, message: "Data berhasil dihapus!" });
+    res.status(200).json({
+      success: true,
+      message: "Data berhasil dihapus!",
+      res: response,
+    });
   } catch (error) {
     next(error);
   }
 };
 
 const getRekamByPasienId = async (req, res, next) => {
-  const { pasien_id } = req.params;
+  const { id } = req.params;
   try {
     const [response] = await pool.query(
       "SELECT * FROM rekam WHERE pasien_id = ?",
-      [pasien_id]
+      [id]
     );
     res.status(200).json({
       success: true,

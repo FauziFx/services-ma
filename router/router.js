@@ -93,10 +93,7 @@ router.route("/pasien/:id").put(updateDataPasien).delete(deleteDataPasien);
 
 // Router Rekam Medis
 router.route("/rekam").get(getRekamAll).post(createDataRekam);
-router
-  .route("/rekam/:pasien_id")
-  .delete(deleteDataRekam)
-  .get(getRekamByPasienId);
+router.route("/rekam/:id").delete(deleteDataRekam).get(getRekamByPasienId);
 
 // Error
 const Error404 = (req, res) => {
