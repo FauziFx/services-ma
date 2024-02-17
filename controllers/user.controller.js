@@ -77,7 +77,7 @@ const updateDataUser = async (req, res, next) => {
 
 const changePassword = async (req, res, next) => {
   const { id } = req.params;
-  const { name, email, oldPassword, newPassword } = req.body;
+  const { name, email, role, oldPassword, newPassword } = req.body;
 
   try {
     const [user] = await pool.query("SELECT password FROM users WHERE id = ?", [
@@ -90,7 +90,7 @@ const changePassword = async (req, res, next) => {
       if (!result) {
         res.json({
           success: false,
-          message: "Old password doesn't match!",
+          message: "Password lama tidak sesuai!!",
         });
       } else {
         bcrypt.hash(newPassword, 10, async function (err, hash) {
@@ -98,7 +98,7 @@ const changePassword = async (req, res, next) => {
           if (hash) {
             await pool.query(
               "UPDATE users SET name= ?, email= ?, password= ?, role= ? WHERE id = ?",
-              [name, email, hash, id]
+              [name, email, hash, role, id]
             );
 
             res.status(201).json({
