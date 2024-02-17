@@ -5,7 +5,7 @@ const getRekamAll = async (req, res, next) => {
     const [response] = await pool.query(
       `SELECT pasien.nama, pasien.alamat, pasien.ttl, pasien.jenis_kelamin, pasien.pekerjaan, pasien.nohp, pasien.riwayat, rekam.*, optik.nama_optik FROM rekam
         JOIN pasien ON rekam.pasien_id = pasien.id 
-        JOIN optik ON rekam.optik_id = optik.id
+        LEFT JOIN optik ON rekam.optik_id = optik.id
         ORDER BY id DESC`
     );
     res.status(200).json({
@@ -77,7 +77,8 @@ const getRekamByPasienId = async (req, res, next) => {
   const { id } = req.params;
   try {
     const [response] = await pool.query(
-      "SELECT * FROM rekam WHERE pasien_id = ?",
+      `SELECT rekam.*, optik.nama_optik FROM rekam 
+      LEFT JOIN optik ON rekam.optik_id = optik.id WHERE rekam.pasien_id = ?`,
       [id]
     );
     res.status(200).json({
