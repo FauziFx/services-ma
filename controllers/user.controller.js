@@ -17,11 +17,11 @@ const getUserAll = async (req, res, next) => {
 
 const createDataUser = async (req, res, next) => {
   try {
-    const { name, email, password, role } = req.body;
+    const { name, email, password } = req.body;
     const passwordHash = bcrypt.hashSync(password, 10);
     await pool.query(
-      "INSERT INTO users (name, email, password, role) VALUES (?, ?, ?. ?)",
-      [name, email, passwordHash, role]
+      "INSERT INTO users (name, email, password) VALUES (?, ?, ?)",
+      [name, email, passwordHash]
     );
     res.status(201).json({
       success: true,
