@@ -114,8 +114,20 @@ const changePassword = async (req, res, next) => {
   }
 };
 
+const deleteDataUser = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    await pool.query("DELETE FROM users WHERE id = ?", [id]);
+
+    res.json({ success: true, message: "Data berhasil dihapus!" });
+  } catch (error) {
+    next(error);
+  }
+};
+
 exports.getUserAll = getUserAll;
 exports.createDataUser = createDataUser;
 exports.getUserbyId = getUserbyId;
 exports.updateDataUser = updateDataUser;
 exports.changePassword = changePassword;
+exports.deleteDataUser = deleteDataUser;

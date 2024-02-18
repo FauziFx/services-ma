@@ -20,6 +20,7 @@ const {
   getUserbyId,
   updateDataUser,
   changePassword,
+  deleteDataUser,
 } = require("../controllers/user.controller.js");
 const {
   getProductsAll,
@@ -73,7 +74,11 @@ router.route("/optik/:id").delete(deleteDataOptik).put(updateDataOptik);
 
 // Router Users
 router.route("/users").get(getUserAll).post(createDataUser);
-router.route("/users/:id").get(getUserbyId).put(updateDataUser);
+router
+  .route("/users/:id")
+  .get(getUserbyId)
+  .put(updateDataUser)
+  .delete(deleteDataUser);
 router.route("/change_password/:id").put(changePassword);
 
 // Router Products
